@@ -1,6 +1,6 @@
 public class Achilles extends Greek{
     public Achilles(){
-        super(100,10);
+        super((int)(0.625*SIZE),(int)(0.5*SIZE),100,10);
     }
 
     @Override
@@ -9,6 +9,6 @@ public class Achilles extends Greek{
     }
 
     public String toString(){
-        return "A";
+        return YELLOW_BOLD+"A"+RESET;
     }
 }

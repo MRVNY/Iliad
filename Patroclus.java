@@ -1,6 +1,6 @@
 public class Patroclus extends Greek{
     public Patroclus(){
-        super(50,5);
+        super((int)(0.625*SIZE+1),(int)(0.5*SIZE),50,5);
     }
 
     @Override
@@ -9,6 +9,6 @@ public class Patroclus extends Greek{
     }
 
     public String toString(){
-        return "P";
+        return YELLOW_BOLD+"P"+RESET;
     }
 }

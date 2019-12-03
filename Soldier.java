@@ -1,17 +1,19 @@
 public abstract class Soldier{
+    public final static int SIZE = 50;
 
-    public static final String RESET = "\033[0m";
-    public static final String BLACK_BOLD = "\033[1;30m";  // BLACK
-    public static final String RED_BOLD = "\033[1;31m";    // RED
-    public static final String GREEN_BOLD = "\033[1;32m";  // GREEN
-    public static final String YELLOW_BOLD = "\033[1;33m"; // YELLOW
-    public static final String BLUE_BOLD = "\033[1;34m";   // BLUE
-    public static final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
-    public static final String CYAN_BOLD = "\033[1;36m";   // CYAN
-    public static final String WHITE_BOLD = "\033[1;37m";  // WHITE
+    public final String RESET = "\033[0m";
+    public final String RED_BOLD = "\033[1;31m";    // RED
+    public final String GREEN_BOLD = "\033[1;32m";  // GREEN
+    public final String YELLOW_BOLD = "\033[1;33m"; // YELLOW
+    public final String BLUE_BOLD = "\033[1;34m";   // BLUE
+    public final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
+
     private int life,power;
+    private int x,y;
 
-    public Soldier(int l,int p){
+    public Soldier(int xx,int yy,int l,int p){
+        x = xx;
+        y = yy;
         life = l;
         power = p;
     }
@@ -24,7 +26,16 @@ public abstract class Soldier{
         return life;
     }
 
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
     public abstract void attack();
+    public abstract void move();
 
     public void hurt(int h){
         life -= h;

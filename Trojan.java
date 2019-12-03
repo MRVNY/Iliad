@@ -1,11 +1,11 @@
 public class Trojan extends Soldier{
     
-    public Trojan(){
-        super(10,1);
+    public Trojan(int x,int y){
+        super(x,y,10,1);
     }
 
-    public Trojan(int l,int p){
-        super(l,p);
+    public Trojan(int x,int y,int l,int p){
+        super(x,y,l,p);
     }
 
     public void attack(){

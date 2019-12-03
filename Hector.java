@@ -1,7 +1,7 @@
 public class Hector extends Trojan{
     
     public Hector(){
-        super(90,9);
+        super((int)(0.375*SIZE),(int)(0.5*SIZE),90,9);
     }
 
     @Override
@@ -10,6 +10,6 @@ public class Hector extends Trojan{
     }
 
     public String toString(){
-        return "H";
+        return GREEN_BOLD+"H"+RESET;
     }
 }

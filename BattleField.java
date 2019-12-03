@@ -1,41 +1,35 @@
 import java.util.ArrayList;
 
 public class BattleField{
-    public static final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
-    public static final String RESET = "\033[0m";
+    public final int SIZE = 50;
 
-    public ArrayList<Soldier>[][] bf;
-    private int year,size = 50;
+    public ArrayList<Soldier> greeks,trojans;
+    private int year = 50;
 
     public BattleField(){
-        bf = new ArrayList[size][size];
-        for(int j=0;j<size;j++){
-            for(int i=0;i<(int)(0.5*size);i++){
-                bf[i][j] = new ArrayList<Soldier>();
-                if(Math.random()<0.2) bf[i][j].add(new Trojan());
+        greeks = new ArrayList<Soldier>();
+        trojans = new ArrayList<Soldier>();
+        greeks.add(new Achilles());
+        greeks.add(new Patroclus());
+        trojans.add(new Hector());
+
+        for(int j=0;j<SIZE;j++){
+            for(int i=0;i<(int)(0.25*SIZE);i++){
+                trojans.add(new Trojan(i,j));
             }
-            for(int i=(int)(0.5*size);i<size;i++){
-                bf[i][j] = new ArrayList<Soldier>();
-                if(Math.random()<0.2) bf[i][j].add(new Greek());
+            for(int i=(int)(0.75*SIZE);i<SIZE;i++){
+                greeks.add(new Greek(i,j));
             }
         }
-        Soldier a = new Achilles();
-        Soldier p = new Patroclus();
-        Soldier h = new Hector();
-
-        bf[(int)(0.4*size)][(int)(0.5*size)].add(h);
-        bf[(int)(0.6*size)][(int)(0.5*size)].add(a);
-        bf[(int)(0.6*size+1)][(int)(0.5*size)].add(p);
         year = 1;
     }
 
     public void update(){
-        for(int i=0;i<size;i++){
-            for(int j=0;j<size;j++){
-                for(Soldier s: bf[i][j]){
-                
-                }
-            }
+        for(Soldier g: greeks){
+
+        }
+        for(Soldier t: trojans){
+
         }
     }
 
@@ -49,17 +43,27 @@ public class BattleField{
 
     public String toString(){
         String s = "";
-        for(int j=0;j<size;j++){
-            for(int i=0;i<size;i++){
-                if(bf[i][j].size()==0) s += "   ";
-                else if(bf[i][j].size()==1) s += " "+bf[i][j].get(0)+" ";
-                else if(bf[i][j].size()>1 && bf[i][j].get(0).getPower()!=1 && bf[i][j].get(0).getPower()==1) 
-                    s += ":"+bf[i][j].get(0)+":";
-                else s += PURPLE_BOLD+"%%%"+RESET;
+        String[][] tab = new String[SIZE][SIZE];
+
+        for(Soldier g: greeks){
+            if(tab[g.getX()][g.getY()]==null) tab[g.getX()][g.getY()] = g.toString();
+            else if(tab[g.getX()][g.getY()]==trojans.get(1).toString()) tab[g.getX()][g.getY()] = g.PURPLE_BOLD+"%%%"+g.RESET;
+            else tab[g.getX()][g.getY()] = "%"+tab[g.getX()][g.getY()]+"%";
+        }
+        for(Soldier t: trojans){
+            if(tab[t.getX()][t.getY()]==null) tab[t.getX()][t.getY()] = t.toString();
+            else if(tab[t.getX()][t.getY()]==greeks.get(2).toString()) tab[t.getX()][t.getY()] = t.PURPLE_BOLD+"%%%"+t.RESET;
+            else tab[t.getX()][t.getY()] = "%"+tab[t.getX()][t.getY()]+"%";
+        }
+
+        for(int j=0;j<SIZE;j++){
+            for(int i=0;i<SIZE;i++){
+                if(tab[i][j]==null) s += "   ";
+                else if(tab[i][j].length()==3) s += tab[i][j];
+                else s += " "+tab[i][j]+" ";
             }
             s += "\n";
         }
-
 
         return s;
     }
