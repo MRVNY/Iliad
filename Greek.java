@@ -8,10 +8,6 @@ public class Greek extends Soldier{
         super(x,y,l,p);
     }
 
-    public void attack(BattleField bf){
-        for(Soldier )
-    }
-
     public String toString(){
         return BLUE_BOLD + "G" + RESET;
     }

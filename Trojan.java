@@ -8,10 +8,6 @@ public class Trojan extends Soldier{
         super(x,y,l,p);
     }
 
-    public void attack(){
-        
-    }
-
     public String toString(){
         return RED_BOLD +"T" + RESET;
     }

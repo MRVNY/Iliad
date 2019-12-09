@@ -8,8 +8,7 @@ public abstract class Soldier{
     public final String BLUE_BOLD = "\033[1;34m";   // BLUE
     public final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
 
-    private int life,power;
-    private int x,y;
+    private int life,power,x,y;
 
     public Soldier(int xx,int yy,int l,int p){
         x = xx;
@@ -34,8 +33,16 @@ public abstract class Soldier{
         return y;
     }
 
-    public abstract void attack();
-    public abstract void move();
+    public void move(){
+        do{
+            double ranx = Math.random();
+            double rany = Math.random();
+            if(ranx<1/3) x++;
+            else if(ranx<2/3) x--;
+            if(rany<1/3) y++;
+            else if(rany<2/3) y--;
+        }while(x<0||x>SIZE||y<0||y>SIZE);
+    }
 
     public void hurt(int h){
         life -= h;
