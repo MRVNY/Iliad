@@ -4,11 +4,11 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 public class BFVisual extends JPanel implements KeyListener{
-    public static final Color LIGHTBLUE = new Color(153, 240, 255);
-    public static final Color LIGHTORANGE = new Color(255, 204, 153);
-    public static final Color PURPLE = new Color(127, 0, 255);
-    private final int sqsize = 20;
-    private int SIZE;
+    public final Color LIGHTBLUE = new Color(153, 240, 255);
+    public final Color LIGHTORANGE = new Color(255, 204, 153);
+    public final Color PURPLE = new Color(127, 0, 255);
+    private static final int sqsize = 20;
+    private static final int size = BattleField.SIZE*sqsize;
     private BattleField bf;
 
     public BFVisual(BattleField bff){
@@ -16,9 +16,7 @@ public class BFVisual extends JPanel implements KeyListener{
         bf = bff;
         this.addKeyListener(this);
         this.setBackground(Color.WHITE);
-        this.setSize(SIZE,SIZE);
-        SIZE = bf.SIZE*sqsize;
-        
+        this.setSize(size,size);   
     }
 
     public void addNotify() {
@@ -26,13 +24,20 @@ public class BFVisual extends JPanel implements KeyListener{
         requestFocus();
     }
 
-    public int getSIZE(){return SIZE;}
+    @Override
+    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode()==KeyEvent.VK_RIGHT) {bf.achimove("R"); repaint();}
+        else if(e.getKeyCode()==KeyEvent.VK_LEFT) {bf.achimove("L"); repaint();}
+        else if(e.getKeyCode()==KeyEvent.VK_UP) {bf.achimove("D"); repaint();}
+        else if(e.getKeyCode()==KeyEvent.VK_DOWN) {bf.achimove("U"); repaint();}
+    }
+    public void keyTyped(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {}
 
-    public void paint(Graphics gg){
-        Graphics2D g = (Graphics2D) gg;
+    public void paint(Graphics g){
         String[][] tab = bf.makeTab();
-        for(int j=0;j<SIZE/sqsize;j++){
-            for(int i=0;i<SIZE/sqsize;i++){
+        for(int j=0;j<size/sqsize;j++){
+            for(int i=0;i<size/sqsize;i++){
                 if(tab[i][j]!=null){
                     switch(tab[i][j]){
                         case "G": g.setColor((LIGHTBLUE)); break;
@@ -55,31 +60,6 @@ public class BFVisual extends JPanel implements KeyListener{
         repaint();
     }
 
-    @Override
-    public void keyPressed(KeyEvent e){
-        if(e.getKeyCode()==KeyEvent.VK_RIGHT) {bf.achimove("R"); repaint();}
-        else if(e.getKeyCode()==KeyEvent.VK_LEFT) {bf.achimove("L"); repaint();}
-        else if(e.getKeyCode()==KeyEvent.VK_UP) {bf.achimove("D"); repaint();}
-        else if(e.getKeyCode()==KeyEvent.VK_DOWN) {bf.achimove("U"); repaint();}
-    }
-    public void keyTyped(KeyEvent e) {}
-    public void keyReleased(KeyEvent e) {}
+    public static int getSIZE(){return size;}
 
-
-    public static void main(String[] args) throws InterruptedException {
-        BattleField bf = new BattleField();
-        BFVisual p = new BFVisual(bf);
-
-        JFrame f = new JFrame("BattleField");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
-        f.setSize(p.getSIZE(),p.getSIZE());
-
-        f.add(p,BorderLayout.CENTER);
-
-        for(int i=0;i<1000;i++){
-            Thread.sleep(1000);   
-            p.update();
-        }
-    }
 }

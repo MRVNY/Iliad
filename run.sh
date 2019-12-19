@@ -1,3 +1,3 @@
 rm *.class
-javac BFVisual.java
-java BFVisual
+javac Iliad.java
+java Iliad

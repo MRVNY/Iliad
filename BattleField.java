@@ -2,40 +2,35 @@ import java.util.ArrayList;
 
 public class BattleField{
     private Achilles achi =  new Achilles();
-    public static final int SIZE = 39;
+    private Patroclus patro =  new Patroclus();
+    private Hector hec = new Hector();
+    public static final int SIZE = 35;
     
-    public ArrayList<Soldier> greeks,trojans;
-    private static int year = 0;
+    private ArrayList<Soldier> greeks,trojans;
 
     public BattleField(){
         greeks = new ArrayList<Soldier>();
         trojans = new ArrayList<Soldier>();
         greeks.add(achi);
-        greeks.add(new Patroclus());
-        trojans.add(new Hector());
+        greeks.add(patro);
+        trojans.add(hec);
 
         for(int j=0;j<SIZE;j++){
             for(int i=0;i<(int)(0.25*SIZE);i++){
                 trojans.add(new Trojan(i,j));
             }
-            for(int i=(int)(0.75*SIZE);i<SIZE;i++){
+            for(int i=(int)(0.75*SIZE)+1;i<SIZE;i++){
                 greeks.add(new Greek(i,j));
             }
         }
-        year = 1;
-    }
-
-    public int getYear(){
-        return year;
-    }
-
-    public void timepass(){
-        year++;
     }
 
     public void achimove(String s){
         achi.move(s);
     }
+
+    public ArrayList<Soldier> getG(){return greeks;}
+    public ArrayList<Soldier> getT(){return trojans;}
 
     public ArrayList<Soldier> getXY(int x,int y){
         ArrayList<Soldier> xy = new ArrayList<Soldier>();
@@ -46,19 +41,10 @@ public class BattleField{
         for(Soldier s: trojans){
             if(s.getX()==x && s.getY()==y) xy.add(s);
         }
-
         return xy;
     }
 
     public void update(){
-        //move
-        for(Soldier s: greeks){
-            if(!(s instanceof Achilles)){
-                s.move(this);
-            }
-        }
-        for(Soldier s: trojans) s.move(this);
-
         //fight
         double powerG,powerT,nbG,nbT;
         int hurt;
@@ -96,6 +82,14 @@ public class BattleField{
             if(greeks.get(i).getLife() < 1) greeks.remove(i);
         for(int i=0;i<trojans.size();i++)
             if(trojans.get(i).getLife() < 1) trojans.remove(i);
+
+        //move
+        for(Soldier s: greeks){
+            if(!(s instanceof Achilles)){
+                s.move(this);
+            }
+        }
+        for(Soldier s: trojans) s.move(this);
     }
 
     public String[][] makeTab(){
@@ -131,5 +125,13 @@ public class BattleField{
             s += "\n";
         }
         return s;
+    }
+
+    public String showLife(){
+        int p = patro.getLife(),h=hec.getLife(),g=greeks.size(),t=trojans.size();
+        if(h<=0) return "<html>Patroclus: "+patro.getLife()+"<br>Hector is dead<br>"+t+" trojan<br>"+g+" greek</html>";
+        else if(p<=0) return "<html>Patroclus is dead, GAME OVER</html>";
+        else if(t<=0) return "YOU'VE WON THE WAR";
+        else return "<html>Patroclus: "+patro.getLife()+"<br>Hector: "+hec.getLife()+"<br>"+t+" trojan<br>"+g+" greek</html>";
     }
 }

@@ -1,6 +1,7 @@
 public abstract class Soldier{
     protected static final int SIZE = BattleField.SIZE;
-    protected int life,power,x,y;
+    private int life,power;
+    protected int x,y;
 
     public Soldier(int xx,int yy,int l,int p){
         x = xx;
@@ -24,8 +25,6 @@ public abstract class Soldier{
     public int getY(){
         return y;
     }
-
-    public int getSIZE(){return SIZE;}
 
     public void randommove(){
         int xx=x,yy=y;
