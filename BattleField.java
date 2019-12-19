@@ -1,16 +1,16 @@
 import java.util.ArrayList;
-//import javax.swing.JFrame;
 
-public class BattleField implements Field{
-    public final int SIZE = 50;
-
+public class BattleField{
+    private Achilles achi =  new Achilles();
+    public static final int SIZE = 39;
+    
     public ArrayList<Soldier> greeks,trojans;
     private static int year = 0;
 
     public BattleField(){
         greeks = new ArrayList<Soldier>();
         trojans = new ArrayList<Soldier>();
-        greeks.add(new Achilles());
+        greeks.add(achi);
         greeks.add(new Patroclus());
         trojans.add(new Hector());
 
@@ -33,6 +33,10 @@ public class BattleField implements Field{
         year++;
     }
 
+    public void achimove(String s){
+        achi.move(s);
+    }
+
     public ArrayList<Soldier> getXY(int x,int y){
         ArrayList<Soldier> xy = new ArrayList<Soldier>();
         
@@ -48,11 +52,16 @@ public class BattleField implements Field{
 
     public void update(){
         //move
-        for(Soldier s: greeks) s.move();
-        for(Soldier s: trojans) s.move();
+        for(Soldier s: greeks){
+            if(!(s instanceof Achilles)){
+                s.move(this);
+            }
+        }
+        for(Soldier s: trojans) s.move(this);
 
         //fight
-        int powerG,powerT,nbG,nbT,hurt;
+        double powerG,powerT,nbG,nbT;
+        int hurt;
         for(int j=0;j<SIZE;j++){
             for(int i=0;i<SIZE;i++){
                 ArrayList<Soldier> onXY = getXY(i,j);
@@ -83,33 +92,35 @@ public class BattleField implements Field{
         }
 
         //die
-        for(Soldier s: greeks)
-            if(s.getLife() < 1) greeks.remove(s);
-        for(Soldier s: trojans)
-            if(s.getLife() < 1) trojans.remove(s);
+        for(int i=0;i<greeks.size();i++)
+            if(greeks.get(i).getLife() < 1) greeks.remove(i);
+        for(int i=0;i<trojans.size();i++)
+            if(trojans.get(i).getLife() < 1) trojans.remove(i);
     }
 
-    public String toString(){
-        String s = "";
+    public String[][] makeTab(){
         String[][] tab = new String[SIZE][SIZE];
         int x,y;
 
         for(Soldier g: greeks){
-            x = g.getX();
-            y = g.getY();
+            x = g.getX(); y = g.getY();
             if(tab[x][y]==null) tab[x][y] = g.toString();
-            else if(tab[x][y]==trojans.get(1).toString()) 
-                tab[x][y] = g.PURPLE_BOLD+"%%%"+g.RESET;
-            else tab[x][y] = "%"+tab[x][y]+"%";
+            else if(tab[x][y]=="T" || tab[x][y]=="TTT") tab[x][y] = "%%%";
+            else if(tab[x][y]=="G") tab[x][y] = "GGG";
         }
         for(Soldier t: trojans){
-            x = t.getX();
-            y = t.getY();
-            if(tab[x][y]==null) tab[x][y] = t.toString();
-            else if(tab[x][y]==greeks.get(2).toString()) 
-                tab[x][y] = t.PURPLE_BOLD+"%%%"+t.RESET;
-            else tab[x][y] = "%"+tab[x][y]+"%";
+            x = t.getX(); y = t.getY();
+            if(t.toString()=="H"&&tab[x][y]!="A") tab[x][y] = "H";
+            else if(tab[x][y]==null) tab[x][y] = t.toString();
+            else if(tab[x][y]=="G" || tab[x][y]=="GGG") tab[x][y] = "%%%";
+            else if(tab[x][y]=="T") tab[x][y] = "TTT";
         }
+        return tab;
+    }
+    
+    public String toString(){
+        String s = "";
+        String[][] tab = makeTab();
 
         for(int j=0;j<SIZE;j++){
             for(int i=0;i<SIZE;i++){
@@ -119,7 +130,6 @@ public class BattleField implements Field{
             }
             s += "\n";
         }
-
         return s;
     }
 }

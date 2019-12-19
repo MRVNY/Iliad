@@ -1,13 +1,11 @@
-//import javax.swing.JFrame;
-//import java.util.Scanner;
-
 public class Iliad{
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException{
         BattleField bf = new BattleField();
-        while(1==1){
+        //System.out.println(bf);
+        for(int i=0;i<20;i++){
             System.out.println(bf);
-            Thread.sleep(1000);   
-            bf.update();     
+            Thread.sleep(500);   
+            bf.update();
         }
     }
 }
