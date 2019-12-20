@@ -36,7 +36,7 @@ public abstract class Soldier{
             else if(ranx<2./3.) x--;
             if(rany<1./3.) y++;
             else if(rany<2./3.) y--;
-        }while(x<0||x==SIZE||y<0||y==SIZE);
+        }while(x<0||x>=SIZE||y<0||y>=SIZE);
     }
 
     public abstract void move(BattleField bf);

@@ -129,9 +129,9 @@ public class BattleField{
 
     public String showLife(){
         int p = patro.getLife(),h=hec.getLife(),g=greeks.size(),t=trojans.size();
-        if(h<=0) return "<html>Patroclus: "+patro.getLife()+"<br>Hector is dead<br>"+t+" trojan<br>"+g+" greek</html>";
+        if(t<1) return "YOU'VE WON THE WAR";
+        else if(h<=0) return "<html>Patroclus: "+patro.getLife()+"<br>Hector is dead<br>"+t+" trojan<br>"+g+" greek</html>";
         else if(p<=0) return "<html>Patroclus is dead, GAME OVER</html>";
-        else if(t<=0) return "YOU'VE WON THE WAR";
         else return "<html>Patroclus: "+patro.getLife()+"<br>Hector: "+hec.getLife()+"<br>"+t+" trojan<br>"+g+" greek</html>";
     }
 }

@@ -8,16 +8,12 @@ public class Patroclus extends Greek{
         if(bf.getT().size()>0){
             int hx = bf.getT().get(0).getX();
             int hy = bf.getT().get(0).getY();
-            
-            if(bf.getT().get(0).toString()=="H" && (Math.sqrt(Math.pow((hx-x),2)+Math.pow((hy-y),2))<5)&&x>0&&y>0&&x<SIZE&&y<SIZE&&hx!=x&&hy!=y){
-                if(Math.abs(hx-x)>Math.abs(hy-y)){
-                    if(hx>x) x--;
-                    else if(hx<x) x++;
-                }
-                else{
-                    if(hy>y) y--;
-                    else if(hy<y) y++;
-                }
+            double disth = Math.sqrt(Math.pow((hx-x),2)+Math.pow((hy-y),2));
+            if(bf.getT().get(0).toString()=="H" && disth<5 && x>0&&y>0&&x<SIZE&&y<SIZE&&hx!=x&&hy!=y){
+                if(hx>x) x--;
+                else if(hx<x) x++;
+                if(hy>y) y--;
+                else if(hy<y) y++;
             }
             else super.move(bf);
         }
