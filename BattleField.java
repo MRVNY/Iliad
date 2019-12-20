@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class BattleField{
-    public static final int SIZE = 35;
+    public static final int SIZE = 33;
     private ArrayList<Soldier> greeks,trojans;
 
     public BattleField(){

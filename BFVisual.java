@@ -1,7 +1,8 @@
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.*;
+import javax.swing.JPanel;
 
 public class BFVisual extends JPanel implements KeyListener{
     private static final long serialVersionUID = 1L;
@@ -50,8 +51,9 @@ public class BFVisual extends JPanel implements KeyListener{
                         case "TTT": g.setColor((Color.ORANGE)); break;
                         case "GGG": g.setColor((Color.BLUE)); break;
                     }
-                    g.fillRect(i*sqsize, j*sqsize, sqsize-5, sqsize-5);
                 }
+                else g.setColor((Color.WHITE));
+                g.fillRect(i*sqsize, j*sqsize, sqsize-5, sqsize-5);
             }
         }
     }
