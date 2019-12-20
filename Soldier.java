@@ -10,39 +10,27 @@ public abstract class Soldier{
         power = p;
     }
 
-    public int getPower(){
-        return power;
-    }
+    public int getPower(){return power;}
+    public int getLife(){return life;}
+    public int getX(){return x;}
+    public int getY(){return y;}
+    public void hurt(int h){life -= h;}
 
-    public int getLife(){
-        return life;
-    }
+    public abstract void move(Object o);
 
-    public int getX(){
-        return x;
-    }
-
-    public int getY(){
-        return y;
-    }
-
+    //Move randomly 
     public void randommove(){
         int xx=x,yy=y;
         do{
             x=xx; y=yy;
             double ranx = Math.random();
             double rany = Math.random();
+
             if(ranx<1./3.) x++;
             else if(ranx<2./3.) x--;
+
             if(rany<1./3.) y++;
             else if(rany<2./3.) y--;
         }while(x<0||x>=SIZE||y<0||y>=SIZE);
     }
-
-    public abstract void move(BattleField bf);
-
-    public void hurt(int h){
-        life -= h;
-    }
-
 }

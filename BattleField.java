@@ -1,32 +1,27 @@
 import java.util.ArrayList;
 
 public class BattleField{
-    private Achilles achi =  new Achilles();
-    private Patroclus patro =  new Patroclus();
-    private Hector hec = new Hector();
     public static final int SIZE = 35;
-    
     private ArrayList<Soldier> greeks,trojans;
 
     public BattleField(){
         greeks = new ArrayList<Soldier>();
         trojans = new ArrayList<Soldier>();
-        greeks.add(achi);
-        greeks.add(patro);
-        trojans.add(hec);
+        greeks.add(new Achilles());
+        greeks.add(new Patroclus());
+        trojans.add(new Hector());
 
         for(int j=0;j<SIZE;j++){
-            for(int i=0;i<(int)(0.25*SIZE);i++){
+            for(int i=0;i<(int)(0.25*SIZE);i++)
                 trojans.add(new Trojan(i,j));
-            }
-            for(int i=(int)(0.75*SIZE)+1;i<SIZE;i++){
+            for(int i=(int)(0.75*SIZE)+1;i<SIZE;i++)
                 greeks.add(new Greek(i,j));
-            }
         }
     }
 
+    //Move Achilles
     public void achimove(String s){
-        achi.move(s);
+        greeks.get(0).move(s);
     }
 
     public ArrayList<Soldier> getG(){return greeks;}
@@ -45,12 +40,13 @@ public class BattleField{
     }
 
     public void update(){
-        //fight
+        //Fight
         double powerG,powerT,nbG,nbT;
         int hurt;
         for(int j=0;j<SIZE;j++){
             for(int i=0;i<SIZE;i++){
                 ArrayList<Soldier> onXY = getXY(i,j);
+
                 if(onXY.size()>0){
                     powerG = powerT = nbG = nbT = 0;
                     for(Soldier s: onXY){
@@ -66,72 +62,92 @@ public class BattleField{
                     if(powerG>powerT && powerT!=0){
                         hurt = (int)((powerG-powerT)/nbT);
                         for(Soldier s: onXY)
-                            if(s instanceof Trojan) s.hurt(hurt);
+                            if(s instanceof Trojan) 
+                                s.hurt(hurt);
                     }
                     if(powerT>powerG && powerG!=0){
                         hurt = (int)((powerT-powerG)/nbG);
                         for(Soldier s: onXY)
-                            if(s instanceof Greek) s.hurt(hurt);
+                            if(s instanceof Greek) 
+                                s.hurt(hurt);
                     }
                 }
             }
         }
 
-        //die
+        //Die
         for(int i=0;i<greeks.size();i++)
-            if(greeks.get(i).getLife() < 1) greeks.remove(i);
+            if(greeks.get(i).getLife() < 1) 
+                greeks.remove(i);
         for(int i=0;i<trojans.size();i++)
-            if(trojans.get(i).getLife() < 1) trojans.remove(i);
+            if(trojans.get(i).getLife() < 1) 
+                trojans.remove(i);
 
-        //move
-        for(Soldier s: greeks){
-            if(!(s instanceof Achilles)){
+        //Move
+        for(Soldier s: greeks)
+            if(!(s instanceof Achilles))
                 s.move(this);
-            }
-        }
-        for(Soldier s: trojans) s.move(this);
+        for(Soldier s: trojans) 
+            s.move(this);
     }
 
+    //Generate tab for both toString and paint()
     public String[][] makeTab(){
         String[][] tab = new String[SIZE][SIZE];
         int x,y;
 
         for(Soldier g: greeks){
             x = g.getX(); y = g.getY();
-            if(tab[x][y]==null) tab[x][y] = g.toString();
-            else if(tab[x][y]=="T" || tab[x][y]=="TTT") tab[x][y] = "%%%";
-            else if(tab[x][y]=="G") tab[x][y] = "GGG";
+            if(tab[x][y]==null) 
+                tab[x][y] = g.toString();
+            else if(tab[x][y]=="T" || tab[x][y]=="TTT") 
+                tab[x][y] = "%%%";
+            else if(tab[x][y]=="G") 
+                tab[x][y] = "GGG";
         }
         for(Soldier t: trojans){
             x = t.getX(); y = t.getY();
-            if(t.toString()=="H"&&tab[x][y]!="A") tab[x][y] = "H";
-            else if(tab[x][y]==null) tab[x][y] = t.toString();
-            else if(tab[x][y]=="G" || tab[x][y]=="GGG") tab[x][y] = "%%%";
-            else if(tab[x][y]=="T") tab[x][y] = "TTT";
+            if(t.toString()=="H"&&tab[x][y]!="A") 
+                tab[x][y] = "H";
+            else if(tab[x][y]==null) 
+                tab[x][y] = t.toString();
+            else if(tab[x][y]=="G" || tab[x][y]=="GGG") 
+                tab[x][y] = "%%%";
+            else if(tab[x][y]=="T") 
+                tab[x][y] = "TTT";
         }
         return tab;
     }
-    
+
+    //For testing in Terminal
     public String toString(){
         String s = "";
         String[][] tab = makeTab();
 
         for(int j=0;j<SIZE;j++){
             for(int i=0;i<SIZE;i++){
-                if(tab[i][j]==null) s += "   ";
-                else if(tab[i][j].length()==3) s += tab[i][j];
-                else s += " "+tab[i][j]+" ";
+                if(tab[i][j]==null) 
+                    s += "   ";
+                else if(tab[i][j].length()==3) 
+                    s += tab[i][j];
+                else 
+                    s += " "+tab[i][j]+" ";
             }
             s += "\n";
         }
         return s;
     }
 
+    //Show life of P and H and numbers of Greeks and Trojans
     public String showLife(){
-        int p = patro.getLife(),h=hec.getLife(),g=greeks.size(),t=trojans.size();
-        if(t<1) return "YOU'VE WON THE WAR";
-        else if(h<=0) return "<html>Patroclus: "+patro.getLife()+"<br>Hector is dead<br>"+t+" trojan<br>"+g+" greek</html>";
-        else if(p<=0) return "<html>Patroclus is dead, GAME OVER</html>";
-        else return "<html>Patroclus: "+patro.getLife()+"<br>Hector: "+hec.getLife()+"<br>"+t+" trojan<br>"+g+" greek</html>";
+        int g=greeks.size(),t=trojans.size();
+        if(t<1) 
+            return "YOU'VE WON THE WAR";
+        else if(trojans.get(0).toString()!="H") 
+            return "<html>Patroclus: "+greeks.get(1).getLife()+"<br>Hector is dead<br>"+t+" Trojans<br>"+g+" Greeks</html>";
+        else if(greeks.get(1).toString()!="P") 
+            return "Patroclus is dead, GAME OVER";
+        else 
+            return "<html>Patroclus: "+greeks.get(1).getLife()+"<br>Hector: "+trojans.get(0).getLife()+"<br>"+t+" Trojans<br>"+g+" Greeks</html>";
     }
 }

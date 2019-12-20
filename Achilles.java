@@ -1,13 +1,12 @@
 public class Achilles extends Greek{
     public Achilles(){
-        super((int)(0.625*SIZE),(int)(0.5*SIZE),1000,20);
+        super((int)(0.625*SIZE),(int)(0.5*SIZE),10000,20);
     }
 
-    public String toString(){
-        return "A";
-    }
-
-    public void move(String s){
+    //Contolled by keyboard
+    @Override
+    public void move(Object o){
+        String s = (String)o;
         switch(s){
             case "R": if(x!=SIZE-1) x++; break;
             case "L": if(x!=0) x--; break;
@@ -15,4 +14,6 @@ public class Achilles extends Greek{
             case "D": if(y!=0) y--; break;
         }
     }
+
+    public String toString(){return "A";}
 }
